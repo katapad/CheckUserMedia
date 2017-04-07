@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+<div id="output"></div>
+  <video id="local_video" autoplay style="width: 320px; height: 240px; border: 1px solid black;"></video>
+
+<script id="jsbin-javascript">
+"use strict";
+
+let localVideo = document.getElementById('local_video');
+  let localStream;
+navigator.mediaDevices.getUserMedia({video: true, audio: false})
+    .then(function (stream) { // success
+      console.log('stream');
+      localStream = stream;
+      localVideo.src = window.URL.createObjectURL(localStream);
+    })
+navigator.mediaDevices.enumerateDevices().then(function (cams) {
+  var labels = [];
+  console.log("hoge")
+  cams.forEach(function (cam) {
+    if (cam.kind == 'videoinput') {
+      console.log(cam);
+      labels.push("<li>" + cam.label + "</li>");
+    }
+  });
+  document.getElementById("output").innerHTML = "<ul>" + labels.join("") + "</ul>";
+});
+</script>
+</body>
+</html>
